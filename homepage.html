@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Practice</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            font-family: Arial, sans-serif;
+        }
+        .video-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            background-size: cover;
+        }
+        .login-container {
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            margin-bottom: 50px; /* Space from the bottom */
+        }
+        .login-container select,
+        .login-container input {
+            display: block;
+            margin: 8px auto;
+            padding: 10px;
+            width: 90%;
+            box-sizing: border-box;
+            font-size: 12px;
+            border-radius: 15px;
+            background: rgba(50, 50, 50, 0.7);
+            border:none;
+            color: rgba(255,255,255,.7);
+        }
+        .login-container button {
+            padding: 10px;
+            width: 95%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+
+        .login-container .selector {
+          background-color:#ddd;
+          color:#000;
+          padding-right:15px;
+        }
+        .congratulations {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .custom-select-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .custom-select-button {
+            display: inline-block;
+            width: calc(100% - 30px);
+            padding: 7px;
+            margin: 2px 0;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: #fff;
+            position: relative;
+            text-align: left;
+            width: 248px;
+        }
+        .custom-select-button::after {
+          content: '< >';
+          position: absolute;
+          right: 2px;
+          top: 5px;
+          transform: rotate(90deg);
+          background-color: #007aff;
+          color:#fff;
+          padding:2px 2px 2px 3px;
+          z-index:2;
+        }
+        .custom-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border-style:solid;
+            border-color:#ccc;
+            border-top:none;
+            border-left:1px;
+            border-right:1px;
+            border-bottom:1px;
+            border-radius: 0 0 8px 8px;
+            z-index: 1;
+            margin:-9px auto 0 18px;
+            width:264px;
+            font-size:14px;
+        }
+        .custom-options div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .custom-options div:first-child {
+            margin-top:7px;
+        }
+        .custom-options div:hover {
+            background-color: #007aff;
+            color: #fff;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            animation: fall 1s ease-in-out forwards;
+            z-index:3;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop class="video-background">
+        <source src="output.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="login-container">
+      <div class="custom-select-wrapper">
+        <div class="custom-select-button" id="custom-select-button">Ethernet: Wired 80...</div>
+          <div class="custom-options" id="custom-options">
+              <div>Ethernet: Wired 80...</div>
+              <div>WiFi: Home Network</div>
+              <div>WiFi: Office Network</div>
+          </div>
+        </div>
+        <input type="text" id="username" placeholder="Name" onkeydown="focusNextInput(event)">
+        <input type="password" id="password" placeholder="Enter Password" onkeydown="checkForEnterKey(event)">
+    </div>
+    <div class="congratulations" id="congratulations">
+      🎉 Good Job! You did it right! 🎉
+    </div>
+    <script>
+
+        function focusNextInput(e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                const inputs = Array.from(document.querySelectorAll('input'));
+                const index = inputs.indexOf(e.target);
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            }
+        }
+
+        function checkForEnterKey(e){
+            if(e.keyCode === 13){
+                checkLogin();
+            }
+        }
+        function checkLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === '101s' && password === 'fjfjfj11') {
+                document.querySelector('.login-container').style.display = 'none';
+                const congrats = document.getElementById('congratulations');
+                congrats.style.display = 'block';
+
+                for (let i = 0; i < 100; i++) {
+                    let confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = Math.random() * 100 + 'vh';
+                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    confetti.style.zIndex = 3;
+                    document.body.appendChild(confetti);
+                }
+
+                setTimeout(() => {
+                    document.querySelectorAll('.confetti').forEach(confetti => confetti.remove());
+                    congrats.style.display = 'none';
+                    document.querySelector('.login-container').style.display = 'block';
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                }, 3000);
+
+            } else {
+                // Hide the login container
+                document.querySelector('.login-container').style.display = 'none';
+
+                // Create a new div for the error message
+                let errorMessageContainer = document.createElement('div');
+                errorMessageContainer.id = 'error-message';
+                errorMessageContainer.style.textAlign = 'center';
+                errorMessageContainer.style.fontSize = '24px';
+                errorMessageContainer.style.color = '#d00';
+                errorMessageContainer.style.position = 'absolute';
+                errorMessageContainer.style.top = '50%';
+                errorMessageContainer.style.left = '50%';
+                errorMessageContainer.style.transform = 'translate(-50%, -50%)';
+                errorMessageContainer.style.backgroundColor= 'rgba(255, 255, 255, 0.7)';
+                errorMessageContainer.style.padding = '20px';
+                errorMessageContainer.style.borderRadius = '8px';
+
+                // Create a new paragraph for the error message
+                let errorMessage = document.createElement('p');
+                errorMessage.textContent = `That is not right.`;
+
+                errorMessage.appendChild(document.createElement('br'));
+                errorMessage.appendChild(document.createTextNode(`Name: ${username}`));
+                errorMessage.appendChild(document.createElement('br'));
+                errorMessage.appendChild(document.createTextNode(`Password: ${password}`));
+
+                // Create a new paragraph for the helper message
+                let helperMessage = document.createElement('p');
+                helperMessage.style.margin = '0';
+                helperMessage.style.padding = '0';
+                helperMessage.style.marginTop = '20px';
+                helperMessage.textContent = 'The correct Name is "101s" and the correct Password is "fjfjfj11". Please try again.';
+
+                // Append the paragraphs to the error message div
+                errorMessageContainer.appendChild(errorMessage);
+                errorMessageContainer.appendChild(helperMessage);
+
+                let tryAgainButton = document.createElement('button');
+                tryAgainButton.textContent = 'Let\'s Try Again';
+                tryAgainButton.style.padding = '30px';
+                tryAgainButton.style.width = '95%';
+                tryAgainButton.style.backgroundColor = '#4CAF50';
+                tryAgainButton.style.color = 'white';
+                tryAgainButton.style.border = 'none';
+                tryAgainButton.style.fontSize = '24px';
+                tryAgainButton.style.cursor = 'pointer';
+                tryAgainButton.style.borderRadius = '8px';
+                tryAgainButton.style.marginTop = '80px';
+                tryAgainButton.addEventListener('click', () => {
+                    document.body.removeChild(errorMessageContainer);
+                    document.querySelector('.login-container').style.display = 'block';
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                });
+
+                // Append the button to the error message div
+                errorMessageContainer.appendChild(tryAgainButton);
+
+                // Append the error message to the body
+                document.body.appendChild(errorMessageContainer);
+            }
+        }
+        // Custom Select Functionality
+        const customSelectButton = document.getElementById('custom-select-button');
+        const customOptions = document.getElementById('custom-options');
+
+        customSelectButton.addEventListener('click', function() {
+            customOptions.style.display = customOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        customOptions.addEventListener('click', function(event) {
+            if (event.target.tagName === 'DIV') {
+                if(event.target.textContent !== customSelectButton.textContent) {
+                  alert("Whoops! Don't change what's in this box!");
+                }
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!customSelectButton.contains(event.target) && !customOptions.contains(event.target)) {
+                customOptions.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
